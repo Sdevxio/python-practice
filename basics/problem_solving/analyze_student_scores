@@ -1,0 +1,35 @@
+Create a Python function called `analyze_student_scores`
+that takes a list of student score dictionaries as input.
+Each dictionary in the list represents a student and
+contains their name and scores in different subjects.
+The function should perform the following operations:
+
+Calculate the average score for each student
+Find the student with the highest average score
+Calculate the average score for each subject across all students
+Find the subject with the highest average score
+
+The function should return a dictionary with these results.
+Requirements:
+
+Each student dictionary in the input list will have, the
+format: {"name": "Student Name", "math": score, "science": score, "history": score}
+Round all average scores to 2 decimal places
+If the input list is empty, return an appropriate message
+Use list comprehensions or dictionary comprehensions where appropriate
+Handle potential errors, such as missing subjects for some students
+
+Example usage:
+students = [
+{"name": "Alice", "math": 90, "science": 80, "history": 85},
+{"name": "Bob", "math": 85, "science": 92, "history": 78},
+{"name": "Charlie", "math": 78, "science": 85, "history": 90}
+]
+print(analyze_student_scores(students))
+Should output something like:
+{"student_averages": {"Alice": 85.0, "Bob": 85.0, "Charlie": 84.33},
+"highest_average_student": "Alice",
+"subject_averages": {"math": 84.33, "science": 85.67, "history": 84.33},
+"highest_average_subject": "science"}
+print(analyze_student_scores([]))
+Should output: "No student data provided"
