@@ -1,0 +1,21 @@
+Create a Python function called `calculate_series` that performs a series of arithmetic operations on a list of numbers. The function should take two parameters:
+
+numbers: a list of floats
+operations: a list of strings representing arithmetic operations ('+', '-', '*', '/')
+
+The function should apply the operations to the numbers in sequence, from left to right, and return the final result. If there are more operations than gaps between numbers, ignore the extra operations. If there are fewer operations than gaps between numbers, repeat the operations from the beginning.
+Requirements:
+
+Handle division by zero by skipping that operation and moving to the next one
+Round the final result to 2 decimal places
+If the operations list is empty, return the sum of all numbers
+If the numbers list has fewer than 2 elements, return the first number (or 0 if the list is empty)
+Use list comprehension or map() function to convert input numbers to floats
+
+
+Test the function:
+print(calculate_series([1, 2, 3, 4], ['+', '', '-']))  # Output: 5.00
+print(calculate_series([5, 0, 3, 2, 7], ['/', '+', '', '/']))  # Output: 21.00
+print(calculate_series([1.5, 2.5, 3.5], []))  # Output: 7.50
+print(calculate_series([10], ['', '+', '-']))  # Output: 10.00
+print(calculate_series([], ['', '+', '-']))  # Output: 0.00

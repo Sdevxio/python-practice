@@ -1,0 +1,29 @@
+Create a Python function called `analyze_numbers` that takes a list of numbers
+as input and performs the following operations:
+
+Calculate the sum of all numbers in the list
+Find the maximum number in the list
+Find the minimum number in the list
+Calculate the average (mean) of all numbers in the list
+The function should return a dictionary with these results.
+
+Requirements:
+The input list may contain both integers and floats
+If the list is empty, return appropriate values (0 for sum, None for max and min,
+and 0 for average)
+Round the average to 2 decimal places
+Use built-in functions like sum(), max(), min(), and len() where appropriate
+Handle potential errors, such as division by zero when calculating the average of an empty list
+
+Example usage:
+print(analyze_numbers([1, 2, 3, 4, 5]))
+Should output: {'sum': 15, 'max': 5, 'min': 1, 'average': 3.0}
+
+print(analyze_numbers([10.5, 20.3, 3.25, -4.5]))
+Should output: {'sum': 29.55, 'max': 20.3, 'min': -4.5, 'average': 7.39}
+
+print(analyze_numbers([]))
+Should output: {'sum': 0, 'max': None, 'min': None, 'average': 0}
+
+print(analyze_numbers([100]))
+Should output: {'sum': 100, 'max': 100, 'min': 100, 'average': 100.0}
