@@ -1,0 +1,46 @@
+#
+Create a Python function that reads configuration data from a JSON file and uses it to process a list of numbers. Then, write pytest tests for this function.
+Task:
+
+Create a function called process_numbers that does the following:
+
+Reads configuration from a JSON file named config.json
+Takes a list of numbers as input
+Processes the numbers based on the configuration
+Returns the processed list
+
+
+The config.json file should contain the following keys:
+
+"operation": Can be either "add" or "multiply"
+"value": A number to be used in the operation
+
+
+The process_numbers function should apply the operation and value from the config to each number in the input list.
+Write pytest tests to verify the function's behavior with different configurations and inputs.
+
+Requirements:
+
+Create three files:
+
+number_processor.py: Contains the process_numbers function
+config.json: Contains the configuration data
+test_number_processor.py: Contains the pytest tests
+
+
+Use pytest fixtures to manage the config file for different test scenarios.
+Write at least three pytest tests:
+
+Test with "add" operation
+Test with "multiply" operation
+Test with an empty input list
+
+
+Use parametrized tests for testing multiple inputs.
+Create a test that checks if the function raises an appropriate exception when the config file is missing or invalid.
+
+Example config.json:
+jsonCopy{
+    "operation": "add",
+    "value": 5
+}
