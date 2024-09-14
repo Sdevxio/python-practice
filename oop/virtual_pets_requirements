@@ -1,0 +1,80 @@
+Requirements:
+
+Pet Classes:
+
+Create a base Pet class
+Implement at least three different pet types (e.g., Dog, Cat, Fish) that inherit from the base Pet class
+
+
+Pet Attributes:
+
+Each pet should have attributes such as:
+
+Name
+Age
+Hunger level
+Happiness level
+Energy level
+
+
+
+
+Pet Methods:
+
+Implement methods for basic pet actions:
+
+Feed
+Play
+Sleep
+Make sound (specific to each pet type)
+
+
+
+
+Time System:
+
+Implement a simple time system where pet attributes change over time
+
+
+User Interaction:
+
+Create a simple command-line interface for users to:
+
+Adopt a new pet
+Interact with their pets
+View pet status
+
+
+
+
+Pet Care Mechanics:
+
+If a pet's hunger level gets too high, its happiness should decrease
+If a pet's energy level gets too low, it should automatically sleep
+Each pet type should have slightly different care requirements
+
+
+Multiple Pets:
+
+Allow users to adopt and care for multiple pets simultaneously
+
+
+Save/Load Feature:
+
+Implement a basic system to save the state of all pets and load it when the program restarts
+
+
+
+Additional Challenges (Optional):
+
+Implement pet breeding mechanics
+Add special events or illnesses that pets can experience
+Create a graphical user interface (GUI) instead of a command-line interface
+
+This project will help you practice:
+
+Creating and using classes and objects
+Implementing inheritance and polymorphism
+Managing object states and behaviors
+Handling user input and program flow
+Basic file I/O for save/load functionality
