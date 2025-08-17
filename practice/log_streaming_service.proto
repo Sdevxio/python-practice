@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package log_streaming;
+
+service LogStreamingService {
+    rpc StreamLogEntries (LogStreamRequest) returns (stream LogStreamResponse);
+    rpc StopLogStream (StopStreamRequest) returns (StopStreamResponse);
+}
+
+message LogStreamRequest {
+    string log_file_path = 1;
+    repeated string filter_patterns = 2;  // Only stream entries matching these patterns
+    int64 start_from_timestamp = 3;       // Unix timestamp to start streaming from
+    bool include_existing = 4;             // Include existing entries or only new ones
+    string target_user = 5;               // Target user for routing (like other services)
+}
+
+message LogStreamResponse {
+    string timestamp = 1;
+    string message = 2;
+    string component = 3;
+    string process_name = 4;
+    string entry_type = 5;
+    string raw_line = 6;
+    int64 line_number = 7;                // Line number in the file
+    string stream_id = 8;                 // Unique stream identifier
+}
+
+message StopStreamRequest {
+    string stream_id = 1;
+}
+
+message StopStreamResponse {
+    bool success = 1;
+    string message = 2;
+}
