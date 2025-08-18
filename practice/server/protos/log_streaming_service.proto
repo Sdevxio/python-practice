@@ -16,14 +16,11 @@ message LogStreamRequest {
 }
 
 message LogStreamResponse {
-    string timestamp = 1;
-    string message = 2;
-    string component = 3;
-    string process_name = 4;
-    string entry_type = 5;
-    string raw_line = 6;
-    int64 line_number = 7;                // Line number in the file
-    string stream_id = 8;                 // Unique stream identifier
+    string raw_line = 1;                  // Raw log line (unparsed)
+    int64 line_number = 2;                // Line number in the file
+    string stream_id = 3;                 // Unique stream identifier
+    int64 file_position = 4;              // Position in file (for debugging)
+    string detected_timestamp = 5;        // Simple timestamp detection (optional)
 }
 
 message StopStreamRequest {

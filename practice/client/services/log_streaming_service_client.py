@@ -16,6 +16,7 @@ from typing import Optional, List, Dict, Callable, Any
 import grpc
 from grpc_client_sdk.core.grpc_client_manager import GrpcClientManager
 from test_framework.utils import get_logger
+from test_framework.utils.handlers.file_analayzer.parser import LogParser
 
 
 class LogStreamingServiceClient:
@@ -34,6 +35,7 @@ class LogStreamingServiceClient:
         self.active_streams: Dict[str, Dict] = {}
         self.stream_lock = threading.Lock()
         self.connected = False
+        self.parser = LogParser()  # For parsing raw log lines
     
     def connect(self) -> None:
         """
@@ -152,13 +154,24 @@ class LogStreamingServiceClient:
         try:
             from generated import log_streaming_service_pb2
             
-            # Create the streaming request
-            request = log_streaming_service_pb2.StreamLogRequest(
-                log_file_path=log_file_path,
-                filter_patterns=filter_patterns or [],
-                include_existing=include_existing,
-                start_from_timestamp=0  # Start from beginning if including existing
-            )
+            # Create the streaming request - handle both old and new protobuf formats
+            try:
+                # Try new format first
+                request = log_streaming_service_pb2.LogStreamRequest(
+                    log_file_path=log_file_path,
+                    filter_patterns=filter_patterns or [],
+                    include_existing=include_existing,
+                    start_from_timestamp=0  # Start from beginning if including existing
+                )
+            except AttributeError:
+                # Fallback to old format if new protobuf not available
+                self.logger.warning("Using old protobuf format - please regenerate stubs")
+                request = log_streaming_service_pb2.StreamLogRequest(
+                    log_file_path=log_file_path,
+                    filter_patterns=filter_patterns or [],
+                    include_existing=include_existing,
+                    start_from_timestamp=0
+                )
             
             # Start the stream
             stream_id = str(uuid.uuid4())
@@ -168,21 +181,33 @@ class LogStreamingServiceClient:
                 """Process streaming responses in a separate thread."""
                 try:
                     for response in self.stub.StreamLogEntries(request):
-                        entries_buffer.append(response)
+                        parsed_entry = None
                         
-                        # Call the callback if provided
-                        if entry_callback:
-                            entry_callback(response)
+                        # Handle both old and new response formats
+                        if hasattr(response, 'raw_line'):
+                            # New format: parse raw line into LogEntry
+                            parsed_entry = self.parser.parse_line(response.raw_line, response.line_number)
+                        elif hasattr(response, 'message'):
+                            # Old format: response already has parsed fields
+                            parsed_entry = response
                         
-                        # Store in active streams
-                        with self.stream_lock:
-                            if stream_id in self.active_streams:
-                                self.active_streams[stream_id]['entries'].append(response)
+                        if parsed_entry:
+                            # Store parsed entry
+                            entries_buffer.append(parsed_entry)
+                            
+                            # Call the callback if provided
+                            if entry_callback:
+                                entry_callback(parsed_entry)
+                            
+                            # Store in active streams
+                            with self.stream_lock:
+                                if stream_id in self.active_streams:
+                                    self.active_streams[stream_id]['entries'].append(parsed_entry)
                                 
-                except grpc.RpcError as e:
-                    self.logger.info(f"Stream {stream_id} ended: {e}")
-                except Exception as e:
-                    self.logger.error(f"Error in stream processor: {e}")
+                except grpc.RpcError as stream_error:
+                    self.logger.info(f"Stream {stream_id} ended: {stream_error}")
+                except Exception as process_error:
+                    self.logger.error(f"Error in stream processor: {process_error}")
             
             # Store stream info
             with self.stream_lock:
