@@ -1,0 +1,18 @@
+[project]
+name = "pro-mac-client-test"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "grpcio>=1.71.0",
+    "grpcio-tools>=1.71.0",
+    "protobuf>=5.29.4",
+    "pytest>=8.3.5",
+    "pyyaml>=6.0.2",
+    "pytesseract>=0.3.13",
+    "pillow>=11.2.1",
+    "requests>=2.32.3",
+    "paho-mqtt>=2.1.0",
+]
+

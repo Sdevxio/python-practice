@@ -1,0 +1,69 @@
+# Default gRPC configuration for all endpoints
+defaults:
+  grpc-server:
+    port: 50051
+    fallback_ports: [ 50052, 50053, 55000 ]
+
+# MacOS endpoints in the test labs
+endpoints:
+  mac-endpoint-01:
+    hostname: "localhost"
+    ip: "127.0.0.1"
+    location: "Station 1 (Local Native Automation)"
+    status: "active"
+    notes: "Local test endpoint with native automation deployed"
+
+  mac-endpoint-02:
+    hostname: "REM-L8120"
+    ip: "10.53.66.150"
+    location: "Station 2"
+    status: "active"
+    notes: "Primary test endpoint for station 2"
+
+  mac-endpoint-03:
+    hostname: "REM-L8068"
+    ip: "10.53.66.116"
+    location: "Station 3"
+    status: "inactive"
+    notes: "Primary test endpoint for station 3, currently offline"
+
+  mac-endpoint-04:
+    hostname: "REM-L8049"
+    ip: "10.245.34.225"
+    location: "Station 4"
+    status: "inactive"
+    notes: "Development station, currently offline"
+
+    # Endpoint with custom gRPC configuration
+    mac-endpoint-05:
+      hostname: ""
+      ip: ""
+      location: "Custom gRPC Endpoint"
+      grpc-server:
+        port: 50055
+        fallback_ports: [ 50052, 50053, 55000 ]
+      status: "maintenance"
+      notes: "Custom gRPC endpoint for testing purposes, currently in maintenance mode"
+
+  # Endpoint groups for easier management
+  endpoint_groups:
+    primary_endpoints:
+      description: "Primary station endpoints"
+      endpoints: [ "mac-endpoint-01", "mac-endpoint-02", "mac-endpoint-03" ]
+
+    secondary_endpoints:
+      description: "Secondary or development endpoints"
+      endpoints: [ "mac-endpoint-04" ]
+
+    special_endpoints:
+      description: "Endpoints with custom configurations"
+      endpoints: [ "mac-endpoint-05" ]
+
+    all_endpoints:
+      description: "All endpoints in the test labs"
+      endpoints: [ "mac-endpoint-01", "mac-endpoint-02", "mac-endpoint-03", "mac-endpoint-04", "mac-endpoint-05" ]
+
+    active_endpoints:
+      description: "Currently active endpoints"
+      endpoints: [ "mac-endpoint-01", "mac-endpoint-02" ]
+

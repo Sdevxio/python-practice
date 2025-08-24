@@ -1,0 +1,92 @@
+# Test users
+users:
+  test_user:
+    username: "admin"
+    full_name: "admin admin"
+    user_type: "admin"
+    description: "Primary test user for E2E Validation"
+
+  test_user2:
+    username: "admin"
+    full_name: "admin"
+    user_type: "admin"
+    description: "Administrator test user for E2E Validation"
+
+  test_user3:
+    username: "alaeddinekramou"
+    full_name: "alaeddinekramou"
+    user_type: "admin"
+    description: "Administrator user for E2E Validation"
+
+# Test cards
+cards:
+  card_1234567890:
+    card_id: "1234567890"
+    card_type: "RFID"
+    status: "enrolled"
+    description: "Primary Test Card"
+
+  card_0987654321:
+    card_id: "0987654321"
+    card_type: "RFID"
+    status: "enrolled"
+    description: "Secondary Test Card"
+
+  card_1122334455:
+    card_id: "1122334455"
+    card_type: "RFID"
+    status: "not_enrolled"
+    description: "Tertiary Test Card"
+
+# Station groups for test execution
+station_groups:
+  single_station:
+    description: "Single station"
+    stations: ["station1"]
+    parallel: false
+    max_concurrent: 1
+
+  primary_stations:
+    description: "Main stations for E2E testing"
+    stations: ["station1", "station2", "station3"]
+    parallel: false
+    max_concurrent: 3
+
+  all_stations:
+    description: "All available test stations"
+    stations: ["station1", "station2", "station3", "http_only_station", "mqtt_only_station"]
+    parallel: false
+    max_concurrent: 2
+
+  mqtt_only_stations:
+    description: "Stations that only support MQTT protocol"
+    stations: ["mqtt_only_station"]
+    parallel: false
+    max_concurrent: 1
+
+  http_only_stations:
+    description: "Stations that only support HTTP protocol"
+    stations: ["http_only_station"]
+    parallel: false
+    max_concurrent: 1
+
+# Test suites and execution settings
+test_suites:
+  e2e_tests:
+    description: "End-to-End Test Suite"
+    station_group: "single_station"
+    station_selection: "all"
+
+  integration_tests:
+    description: "Integration Test Suite"
+    station_group: "primary_stations"
+    station_selection: "station1"
+
+  # E2E test defaults
+  e2e_test_defaults:
+      session_timeout: 60
+      tap_timeout: 10
+      log_retrieval_timeout: 30
+      log_file_path: "/Users/admin/PA/dynamic_log_generator/dynamic_test.log"
+      log_tail_size: "2097152" # 2MB
+

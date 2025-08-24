@@ -1,0 +1,60 @@
+# Station definitions - logical test stations
+stations:
+  station1:
+    name: "Test Station 1"
+    description: "Primary dual-protocol test station"
+    endpoint: "mac-endpoint-01"
+    tapper_device: "tapper_125C"
+    enabled_protocols: [ "http", "mqtt" ]
+    primary_protocol: "mqtt"
+    status: "active"
+
+  station2:
+    name: "Test Station 2"
+    description: "Secondary dual-protocol test station"
+    endpoint: "mac-endpoint-02"
+    tapper_device: "tapper_5C98"
+    enabled_protocols: [ "http", "mqtt" ]
+    primary_protocol: "http"
+    status: "active"
+
+  station3:
+    name: "Test Station 3"
+    description: "Tertiary dual-protocol test station"
+    endpoint: "mac-endpoint-03"
+    tapper_device: "tapper_91D8"
+    enabled_protocols: [ "http", "mqtt" ]
+    primary_protocol: "mqtt"
+    status: "inactive"
+
+  mqtt_only_station:
+    name: "MQTT Only test Station"
+    description: "Station configured for MQTT only"
+    endpoint: "mac-endpoint-01"
+    tapper_device: "tapper_7290"
+    enabled_protocols: [ "mqtt" ]
+    primary_protocol: "mqtt"
+    status: "active"
+
+  http_only_station:
+    name: "HTTP Only test Station"
+    description: "Station configured for HTTP only"
+    endpoint: "mac-endpoint-04"
+    tapper_device: "tapper_HTTP"
+    enabled_protocols: [ "http" ]
+    primary_protocol: "http"
+    status: "active"
+
+
+# Station-specific overrides
+station_overrides:
+  station1:
+    timeouts:
+      session_timeout: 45
+  station2:
+    protocols:
+      http:
+        timeout: 15
+  station3:
+    timeouts:
+      session_timeout: 90

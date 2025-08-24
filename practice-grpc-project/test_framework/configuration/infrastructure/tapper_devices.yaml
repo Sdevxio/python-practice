@@ -1,0 +1,95 @@
+# Protocol defaults for all tapper devices
+defaults:
+  http:
+    timeout: 10
+    max_retries: 3
+  mqtt:
+    broker: "10.153.138.254"
+    port: 1883
+    timeout: 10
+    qos: 1
+
+tapper_devices:
+  tapper_125C:
+    description: "Primary tapper for station 1"
+    device_id: "tapper_125C"
+    http_url: "http://10.0.0.149"
+    status: "active"
+    # Dual card capabilities
+    supports_dual_cards: true
+    supports_time_operations: true
+    positioning_method: "timing_based"
+    # Measured timing constants (12V power)
+    dual_card_timings:
+      card1_from_middle_ms: 1284      # Half of measured 2568ms extend
+      card2_from_middle_ms: 1305      # Half of measured 2611ms retract  
+      card1_tap_pause_ms: 500         # Tap duration at Card 1
+      card2_tap_pause_ms: 500         # Tap duration at Card 2
+      power_source: "12V"             # "12V" or "USB"
+
+  tapper_5C98:
+    description: "Primary tapper for station 2"
+    device_id: "tapper_5C98"
+    http_url: "http://10.153.121.162"
+    status: "active"
+
+  tapper_91D8:
+    description: "Primary tapper for station 3"
+    device_id: "tapper_91D8"
+    http_url: "http://10.153.121.163"
+    status: "inactive"
+
+  # Tapper device with custom gRPC configuration
+  tapper_7290:
+    description: "Local test tapper with custom gRPC settings"
+    device_id: "tapper_7290"
+    protocols: [ "mqtt" ]
+    status: "active"
+    notes: "This tapper is configured for MQTT only, no HTTP or gRPC support"
+
+  tapper_HTTP:
+    description: "HTTP only tapper for testing"
+    device_id: "tapper_HTTP"
+    http_url: "http://10.0.0.149"
+    protocols: [ "http" ]
+    status: "active"
+    notes: "This tapper is configured for HTTP only, no MQTT or gRPC support"
+
+  # Example of tappers with custom settings
+  tapper_CUSTOM:
+    description: "Custom configured settings"
+    device_id: "tapper_CUSTOM"
+    http_url: "http://"
+    http_override:
+      timeout: 5
+      max_retries: 5
+    mqtt_override:
+      qos: 2
+      timeout: 8
+    status: "development"
+
+# Tapper groups for logical organization
+tapper_groups:
+  dual_protocol:
+    description: "Tappers supporting both HTTP and MQTT protocols"
+    tappers: [ "tapper_125C", "tapper_5C98", "tapper_91D8" ]
+
+  http_only:
+    description: "Tappers supporting HTTP only"
+    tappers: [ "tapper_HTTP" ]
+
+  mqtt_only:
+    description: "Tappers supporting MQTT only"
+    tappers: [ "tapper_7290" ]
+
+  protocol_custom:
+    description: "Production-ready tapper"
+    tappers: [ "tapper_125C", "tapper_5C98", "tapper_91D8", "tapper_HTTP", "tapper_7290" ]
+
+  development:
+    description: "Development/testing tappers"
+    tappers: [ "tapper_CUSTOM" ]
+
+  dual_card_capable:
+    description: "Tappers supporting dual card operations"
+    tappers: [ "tapper_125C" ]  # Add more as they're enhanced
